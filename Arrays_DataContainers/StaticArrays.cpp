@@ -10,7 +10,7 @@ constexpr int Square(const int number) {
     return number * number;
 }
 
-int main() {
+int StaticArrays_main() {
     const int ARRAY_LENGTH = 5;
 
     // Hard coded value
