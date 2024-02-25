@@ -17,7 +17,7 @@ enum class ChessPiece {
     Queen
 };
 
-int main() {
+int strings_main() {
     // C-style string
     // String literals are turned into this type of array
     // Compiler automatically adds the null character
