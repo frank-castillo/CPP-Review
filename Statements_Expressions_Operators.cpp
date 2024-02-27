@@ -9,7 +9,7 @@
 using std::cout;
 using std::endl;
 
-int main() {
+int Week05_main() {
 
     // Compund statement, also called a block
     // Delimited by {}, defined internally by programmer
