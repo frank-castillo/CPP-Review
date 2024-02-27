@@ -460,6 +460,102 @@ int main() {
             cout << endl;
         }
 
+        // Continue and break loop modifiers
+        {
+            // Continue resumes the exection of code from the top of the loop
+            // Code statements following the continue keyword are skipped
+            // The continue keyword in a for loop cause the loop expression to be evaluated first (e.g. increase the iterator)
+            //      before reevaluating the connditional statement (whether the loop should continue or not)
+
+            // Break exits the loop's block, thereby ending the loop when invoked
+
+            // For loop with continue and break
+            for (int i = 0; i < 5; ++i) {
+                if (i == 2) continue; // Skip the rest of the loop when i is 2
+                if (i == 4) break;    // Exit the loop when i is 4
+                std::cout << i << " "; // Print i
+            }
+
+            // While loop with continue and break
+            int i = 0;
+            while (i < 5) {
+                if (i == 2) {
+                    i++; // Important to increment i before continue to avoid infinite loop
+                    continue; // Skip the rest of the loop when i is 2
+                }
+                if (i == 4) break; // Exit the loop when i is 4
+                std::cout << i << " "; // Print i
+                i++;
+            }
+
+            // Do while loop with continue and break
+            i = 0;
+            do {
+                if (i == 2) {
+                    i++; // Important to increment i before continue to avoid infinite loop
+                    continue; // Skip the rest of the loop when i is 2
+                }
+                if (i == 4) break; // Exit the loop when i is 4
+                std::cout << i << " "; // Print i
+                i++;
+            } while (i < 5);
+        }
+
+        // Infinite loops
+        {
+            // Infinite loops happen when when you program a condition that always evaluates to true
+            // useful for OS operations and checks, or vital functions that should not stop while a program is being executed
+
+            // Infinite while loop
+            // while(true) {
+            // }
+
+            // Infinite Do While loop
+            // do {
+            // }while (true);
+
+            // Infinite For loop
+            // for(;;)
+            // {
+            // }
+
+            // You control infinite loops by adding a break statement in a block of code that monitors wether the loop should
+            // keep running or not
+
+            // Infinite while loop with conditional break statement
+            // while(true) {
+            // DoSomethingForever?;
+            // if(conditionToEnd)
+            // {
+            //     break;
+            // }
+            // }
+
+            // Infinite Do While loop with conditional break statement
+            // do {
+            // DoSomethingForever?;
+            // if(conditionToEnd)
+            // {
+            //     break;
+            // }
+            // }while(true);
+
+            // Infinite For loop with conditional break statement
+            // for(;;) {
+            //     DoSomethingForever?;
+            //     if(conditionToEnd)
+            //     {
+            //         break;
+            //     }
+            // }
+
+            // ONLY USE THESE LOOPS WHEN ABSOLUTELY NECESSARY!
+            // They are volatile and can cause many issues when not done properly
+        }
+
+        {
+
+        }
     }
 
 
