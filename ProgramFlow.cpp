@@ -553,10 +553,143 @@ int main() {
             // They are volatile and can cause many issues when not done properly
         }
 
+        // Nested Loops
         {
+            // Just as with nested if statements, bsed on the needs of your application there will be a need to use nested loops
+            // in order to access specific information contained in multidimensional arrays or perform logical operations
+            // Computer graphics, 2D game maps, and serialization systems are examples of systems that use nested for loops
 
+            const int ARRAY1_LEN {3};
+            const int ARRAY2_LEN {2};
+
+            int nums1[ARRAY1_LEN] {30, 5, -7};
+            int nums2[ARRAY1_LEN] {2, 13};
+
+            cout << "\n\nNested For loops implementation!" << endl;
+
+            for(int i = 0; i < ARRAY1_LEN; ++i) {
+                for(int j = 0; j < ARRAY2_LEN; ++j) {
+                    cout << nums1[i] << " x " << nums2[j] << " = " << nums1[i] * nums2[j] << endl;
+                }
+            }
+
+            // In this case, each loop is in charge of traversing a specific collection
+            // With each iteration of the frst for loop (Loop i), the second loop (loop j) will run and execute the logic inside its block
+            // In each iteration of the second loop, all the elements of the second array are accessed and multiplied by the current indexed int of the first array
+            // For each element of array1, the second loop iterates over all elements of array2, multiplying the cached value of i by the iterator j
+
+            // How to walk a multidimensional array?
+            cout << "\n\nWalking a multidimensional array!" << endl;
+            const int ROWS {3};
+            const int COLUMNS {4};
+
+            // 2D array
+            int multiArray[ROWS][COLUMNS] {
+                {34,-1,879,22},
+                {35,365,-17,89},
+                {44,56,43,-8},
+            };
+
+            for(int row = 0; row < ROWS; ++row) {
+                for(int column = 0; column < COLUMNS; ++column) {
+                    cout << "Integer[" << row << "][" << column << "] = " << multiArray[row][column] << endl;
+                }
+            }
+        }
+
+        // Fibonacci sequence with loops
+        {
+            constexpr int NUMBERS_TO_CALCULATE{5};
+            int num1 = 0, num2 = 1;
+            char shouldContinue = '\0';
+
+            cout << "\n\nFibonacci using nested loops" << endl;
+            cout << NUMBERS_TO_CALCULATE <<" numbers will be displayed at a time from the sequence" << endl;
+            cout << num1 << " " << num2 << " ";
+
+            do {
+                for(int counter = 0; counter < NUMBERS_TO_CALCULATE; ++counter) {
+                    cout << num1 + num2 << " ";
+                    int tempNumber = num2;
+                    num2 = num1 + num2;
+                    num1 = tempNumber;
+                }
+
+                cout << "Want to see the following numbers? (y/n)" << endl;
+                std::cin >> shouldContinue;
+            }while(shouldContinue != 'n');
+
+            cout << "Ending fibonnaci sequence" << endl;
+        }
+
+        // More practice
+        {
+            const int MAX_SIZE {5};
+            const int simpleArray[MAX_SIZE] {5,4,67,-7,6};
+
+            // Reverse access
+            cout << "\n\nReverse Array access" << endl;
+            for(int counter = MAX_SIZE - 1; counter >= 0; --counter) {
+                cout << simpleArray[counter] << endl;
+            }
+
+            cout << "\n\nReverse Array calculations" << endl;
+            const int arrayOne[MAX_SIZE] {12,80,56,54,-3};
+            const int arrayTwo[MAX_SIZE] {45,87,-98,-45,6};
+
+            for(int i = MAX_SIZE - 1; i >= 0; --i) {
+                for(int j = MAX_SIZE - 1; j >= 0; --j)
+                {
+                    cout << arrayOne[i] << " + " << arrayTwo[j] << " = " << arrayOne[i] + arrayTwo[j] <<endl;
+                }
+            }
+
+            enum RainbowColours
+            {
+                Red = 0,
+                Orange,
+                Yellow,
+                Green,
+                Blue,
+                Indigo,
+                Violet,
+                None
+            };
+
+            RainbowColours rainbowColour = RainbowColours::None;
+
+            switch (rainbowColour)
+            {
+                case Red:
+                    cout << "Red is a colour of the rainbow!" << endl;
+                    break;
+                case Orange:
+                    cout << "Orange is a colour of the rainbow!" << endl;
+                    break;
+                case Yellow:
+                    cout << "Yellow is a colour of the rainbow!" << endl;
+                    break;
+                case Green:
+                    cout << "Green is a colour of the rainbow!" << endl;
+                    break;
+                case Blue:
+                    cout << "Blue is a colour of the rainbow!" << endl;
+                    break;
+                case Indigo:
+                    cout << "Indigo is a colour of the rainbow!" << endl;
+                    break;
+                case Violet:
+                    cout << "Violet is a colour of the rainbow!" << endl;
+                    break;
+                default:
+                    cout << "That is not a colour of the rainbow!" << endl;
+                    break;
+            }
         }
     }
+
+
+
 
 
     return 0;
