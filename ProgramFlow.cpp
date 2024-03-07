@@ -22,7 +22,7 @@ void printTypeInfo(T value) {
     }
 }
 
-int main() {
+int ProgramFlow_main() {
 
     // Use of conditional evaluation expressions and constructs (If, Switch, If constexpr)
     {
