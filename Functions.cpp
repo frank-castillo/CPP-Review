@@ -59,7 +59,7 @@ auto AutomaticArea(double radius)
     return pi * radius * radius;
 }
 
-int main()
+int Functions_main()
 {
     // Functions allow us to compartmentalize and organize a program's execution logic
     // Enables us to split the contents of an application into logical blocks that are invoked sequentially
@@ -362,11 +362,11 @@ void AreaByReference(double radius, double &result)
     result = pi * radius * radius;
 }
 
-void ProcessArray(double array[])
+void ProcessArray(double array[], const int length)
 {
-    for (auto element: array)
+    for(int i = 0; i < length; ++i)
     {
-        cout << element << endl;
+        cout << array[i] << endl;
     }
 }
 
