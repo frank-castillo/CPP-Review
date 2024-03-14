@@ -11,4 +11,4 @@ add_executable(CPP_Review main.cpp
         Statements_Expressions_Operators.cpp
         ProgramFlow.cpp
         Functions.cpp
-        Pointers.cpp)
+        Pointers_DynamicMemoryAllocation.cpp)
