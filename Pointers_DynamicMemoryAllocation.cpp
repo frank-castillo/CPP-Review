@@ -241,8 +241,98 @@ int main()
     {
         // Effects of the Increment (++) and Decrement (--) operators on pointers
         {
+            /*
+             * - This type of operator computations work differently on pointers than they do on primitive types
+             * - When performed on a pointer, the compiler interprets this statement as the need to point to the next value
+             *   in the block of memory that is the same type of the pointer
+             * - It DOES NOT traverse through individual bytes, but rather, traverses through the sizeof() its type
+             * - An int is 4 bytes long, so a ++int* statement will shift the address 4 bytes, moving to the next integer
+             *   in the memory block
+             * - By shifting the address of a pointer this way, the comiler ensures that any ++/-- pointer call does not
+             *   end up in the middle or end of data placed in memory, only the beginning
+             *
+             *   int* intPointer has address 0x002EFB34
+             *   When we call ++intPointer the compiler performs => 0x002EFB34 + sizeof(int) == 0x002EFB34 + 4 bytes
+             *   Once the operationis completed, intPointer will now have the address 0x002EFB38
+             */
 
+            int numbersToAllocate{5};
+            int* pointersForInts = new int[5];
+
+            cout << "\n\nIncrement and decrement operators on Pointers!" << endl;
+            cout << "Allocated: " << numbersToAllocate << " integers" << endl;
+
+            for(int counter = 0; counter < numbersToAllocate; ++counter)
+            {
+                cout << "Enter number " << counter << ": " << endl;
+                cin >> *(pointersForInts + counter); // We dereference the brackets to offset the address and access the data
+            }
+
+            cout << "Displaying all numbers entered:" << endl;
+            for(int counter = 0; counter < numbersToAllocate; ++counter)
+            {
+                cout << *(pointersForInts++) << " ";
+            }
+            cout << endl;
+
+            // Return pointer to initial position for proper deletion
+            pointersForInts -= numbersToAllocate; // Shift memory back to the memory array of ints we allocated
+
+            // Release memory
+            delete[] pointersForInts;
         }
 
+        // Use of const on pointers
+        {
+            // - The const keyword affects pointers in a different way than it would other types
+            // - The concept remains the same, a fixed value given at initialization that wont change. However, when on poiters
+            // - there are 3 case scenarios we will run into:
+
+            // First case -> Address contained in the pointer is constant and cannot be changed, but the data at the address can be changed
+            int daysInMonth{30};
+            int daysInLunarMonth{28};
+            int* const pointerToDays = &daysInMonth;
+            *pointerToDays = 31; // The dereferenced data can still be changed!
+            //pointerToDays = &daysInLunarMonth; // This line if uncommmented will prevent compilation -> cant assign new address to const address
+
+            // Second case -> Data pointed to CAN NOT be changed, it is constant. However, the address contained in the pointer can be changed
+            int hoursInDay{24};
+            int monthsInYear{12};
+            const int* pointerToHours{&hoursInDay}; // Initialization list assignment for this example -> Data can not be accesed, just the address!
+            pointerToHours = &monthsInYear; // Doable! We can assign a different address to the pointer
+            //*pointerToHours = 25; // Not possible! The data is const, so it can't be changed. ONLY THE ADDRESS CAN BE CHANGED!
+            //int* newPointer = pointerToHours; // Also not possible! Can't assign const to non-const types
+
+            // Third case -> Both the address and the data at the address are constant. Neither of them can be changed!
+            int secondsInMinute{60};
+            int secondsInHour{3600};
+            const int* const restrictivePointer = &secondsInMinute; // We assign a const memory address and const data
+            //*restrictivePointer = 35; // CANT DO!
+            //restrictivePointer = &secondsInHour; // CANT DO!
+
+            // - Important to remember these behaviours, espcially when passing pointers in functions!
+
+            // - Function parameters should be declared to support the most restricitve level of constness in orde to
+            //   protect your application and prevent bugs
+            // - Also called CONST CORRECTNESS, but there are more cases under this standard, so do some research!
+            // - Will tackle const correctness later on
+
+            // - To easily identify the type of const you have or want, read it from right to left
+            // The next case is a constant pointer to an integer, hence why the adress can't change, const type
+            // int* const pointerCannotChange;
+
+            // The next case is a pointer to a constant integer, hence why the data can't change, const value
+            // const int* pointedDataCannotChange;
+
+            // The last case is both, a constant pointer to a constant integer, hence why none of the values can change
+            // const int* const pointerAndDataCannotChange;
+        }
+
+        // Passing pointers to functions
+        {
+
+        }
     }
+
+    return 0;
 }
