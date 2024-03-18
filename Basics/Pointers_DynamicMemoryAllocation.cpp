@@ -6,6 +6,27 @@
 
 using std::cout, std::endl, std::cin;
 
+void CalculateArea(const double* const ptrPi, const double* const ptrRadius, double* const ptrArea )
+{
+    // Check to validate that all pointers are valid memory addresses
+    if(ptrPi && ptrRadius && ptrArea)
+    {
+        *ptrArea = (*ptrPi) * (*ptrRadius) * (*ptrRadius);
+    }
+}
+// const double pointer to const double data, const double pointer to const double data
+// const double pointer // This allows to modify the data inside ptrArea
+
+void Square(int& number)
+{
+    number *= number;
+}
+
+void Square(const int& number, int& result)
+{
+    result = number * number;
+}
+
 int main()
 {
     // Pointers
@@ -330,8 +351,228 @@ int main()
 
         // Passing pointers to functions
         {
+            /*
+             * - Effective way to pass memory space that contains relevant data for functions to work on
+             * - The memory space shared can also return the result of an operation
+             * - It is important to ensure functions that have pointers or sensitive data as arguments are only allowed
+             *   to modify the data that has to be modified.
+             *   - use the const word alongside the arguments of a function to control what can be mofified and what not
+             *     in the definition/body of a function
+             */
 
+            const double pi{3.1416};
+            const double radius{10};
+            double area{LONG_MIN};
+
+            // Make sure you use the reference operator to get the address of the variable
+            // REMEMBER! Pointers store and trasnfer memory addresses
+            CalculateArea(&pi, &radius, &area);
+
+            cout << "\n\nPassing pointers to a function" << endl;
+            cout << "Value of area after being passed as a pointer: " << area << endl;
         }
+    }
+
+    // Similarities between pointers and Arrays
+    {
+        /*
+         * - A variable name given to an array is effectively a pointer to the first element of the memory block
+         * - Array variables can be assigned to a pointer of the same type
+         * - Because array variables are essentially pointers, you can dereference them and access the data in that address
+         * - You use the array operator on pointers and access data from that block of data as you would with an array
+         */
+        const int ARRAY_LEN{5};
+        int myArray[ARRAY_LEN]{31,-1,335, -999, 2011};
+        int myNumber{5};
+
+        // Array can be assigned as is! No need to reference operator it, because the variable is a pointer!
+        int* arrayPointer{myArray};
+        int* pointerToNumber{&myNumber}; // This requires the & operator in order to get the address
+
+        cout << "\n\nArray is kind of pointer demonstration" << endl;
+        cout << "Address of the pointer referencing a pointer: " << arrayPointer << endl;
+        cout << "Address of the first element in the array: " << &myArray[0] << endl;
+
+        cout << "\nDisplaying data using pointer dereferencing syntax" << endl;
+        // Also called the indirection operator
+        for(int index = 0; index < ARRAY_LEN; ++index)
+        {
+            // Use of dereference
+            cout << "Element " << index << " = " << *(myArray + index) << endl;
+        }
+
+        cout << "\nDisplaying data using array operator syntax on a pointer" << endl;
+        for(int index = 0; index < ARRAY_LEN; ++index)
+        {
+            cout << "Element " << index << " = " << arrayPointer[index] << endl;
+        }
+    }
+
+    // Common programming mistakes when using pointers
+    {
+        // MEMORY LEAKS
+        /*
+         * - Memory that was allocated dynamically is not released after the block of memory is not longer needed
+         * - The longer a program runs, the larger the amount of memory they consume and the system becomes slower
+         */
+
+        // POINTERS LEAKING TO INVALID MEMORY LOCATION
+        /*
+         * - Pointers point to invalid memory location
+         * - Can either cause the program to crash or present nexpected behaviour
+         */
+        // Example of bad practices!
+        /*{
+            bool* isSunny; // BAD! Pointer was not initialized
+            cout << "Is it sunny? (y/n)" << endl;
+            char userInput{'y'};
+            cin >> userInput;
+            if(userInput == 'y')
+            {
+                isSunny = new bool;
+                *isSunny = true;
+            }
+            //isSunny contains invalid data/value if user entered no
+            cout << "Bool flag sunny says: " << *isSunny << endl;
+            // deleting the memory but what if it was not initialized? Avoid having copies of a pointer floating around
+            delete isSunny;
+        }*/
+
+        // DANGLING POINTERS
+        /*
+         * - Any valid pointer after it has been cleared with delete becomes invalid, and should not be used after that point
+         * - To avoid this problem, you can assign null to a pointer once it was cleared, and check the validity of the pointer
+         *   before dereferencing it
+         */
+        // Example of better programming standards
+        /*{
+            cout << "Is it sunny? (y/n)" << endl;
+            char userInput{'y'};
+            cin >> userInput;
+
+            bool* const isSunny = new bool; // Use of const to keep a constant reference to the memory block being allocated
+            *isSunny = true;
+
+            if(userInput == 'n')
+            {
+                *isSunny = false;
+            }
+
+            cout << "Bool flag sunny says: " << *isSunny << endl;
+
+            delete isSunny;
+        }*/
+
+        // CHECKS TO ENSURE ALLOCATION REQUESTS WERE SUCCESSFUL
+        /*
+         * - C++ provides two methods to ensure an allocated pointer is valid before being used
+         * - Default method is the use of exceptions such as std::bad_alloc.
+         *   - Exceptions disrupt the run of an application and unless there is an exception handler, the application ends
+         *     with the error message "unhandled exception"
+         * - Second mehtod makes use of the variant new(nothrow)
+         *   - This variant does not throw exceptions and instead, returns NULL to the pointer when the allocation fails
+         *   - This way, we can check for validity of the pointer before using it and not exit the application abruptly
+         */
+        // Example of proper allocation
+        {
+            // Use of try-catch exception handling syntax
+            try
+            {
+                // Request lots of memory!
+                int* pointerToBigBlock = new int[0x1fffffff];
+
+                for(int i = 0; i < 10; ++i)
+                {
+                    cout << pointerToBigBlock[i] << endl;
+                }
+
+                delete[] pointerToBigBlock;
+            } catch (std::bad_alloc)
+            {
+                cout << "Memory Allocation failed! Ending program..." << endl;
+            }
+
+            // No exceptions
+            int* pointerToBigBlock = new(std::nothrow) int[0x1fffffff];
+
+            if(pointerToBigBlock) // Check if pointer is valid
+            {
+                for(int i = 0; i < 10; ++i)
+                {
+                    cout << *(pointerToBigBlock + i) << endl;
+                }
+                delete[] pointerToBigBlock;
+            }
+            else
+            {
+                cout << "Memory allocation failed..." << endl;
+            }
+        }
+    }
+
+    // Best pointer programming practices
+    {
+        /*
+         * - Always initialize pointer variables to a valid address
+         * - If you can't yet initialize to a valid address, use NULL/nullptr instead
+         * - Do ensure there are pointer validity checks before trying to use them
+         * - Remember to release memory allocated using new!
+         */
+    }
+
+    // References
+    {
+        /*
+         * - Alias for a variable
+         * - When declaring references, you need to initialize it to a variable
+         * - Declared through the reference operator
+         * - References enable us to work with the memory location they were initialized to, so in functions, the help
+         *   to eliminate overhead from copying the data and directly allow access to the data from the original variable
+         * - References, as pointers, allow functions to "return" more than one modified value
+         *
+         * - Copy elision
+         * - Concept integrated in C++17
+         * - When returning a value from a function, the end result would be copied into the variable that called the function
+         *   int myInt = CalculateInts(int anInt);
+         * - This is an unnecessary step and can be expensive because of the memory overhead from the copy if the result is too big
+         * - Since C++17, this copy step is elided (eliminated) by default
+         *
+         * - USING CONST
+         * - Using the const keyword to declare references prevents any changes to the original data
+         * - Really helpful when working on functions and you need to ensure the data you are passing cannot be modified
+         *   - Its whole function is that of a getter (a data retriever)
+         */
+
+        int original = 30;
+
+        cout << "\n\nReferences implementation" << endl;
+        cout << "Original value = " << original << endl;
+        cout << "Original address = " << &original << endl;
+
+        int& ref1 = original;
+        cout << "First reference address = " << &ref1 << endl;
+        int& ref2 = ref1;
+        cout << "Second reference address = " << &ref2 << endl;
+        cout << "Therefore, ref2 = " << ref2 << endl;
+
+        // Copy elision
+        int numberToSquare{10};
+        Square(numberToSquare);
+        cout << "Number squared through reference: " << numberToSquare << endl;
+
+        // For the example above, if you forget to add the reference operator, you won't be able to get the square result
+        // back because internally, the function creates its own copy. Once out of scope, that copy is deleted and the value
+        // is never returned.
+
+        const int& constRef = original;
+        //constRef = 40; // fails as you cannot modify a const reference
+        //int& ref3 = constRef; // Fails as you cannot assign const to non-const variables
+
+        // Here, the function passed number as a const, preventing it from being changed
+        // The other parameter, is passed as reference and can be used to get the result of the calculation
+        int result{INT_MIN};
+        Square(numberToSquare,result);
+        cout << "Number to square is: " << numberToSquare << " Square value is: " << result << endl;
     }
 
     return 0;
