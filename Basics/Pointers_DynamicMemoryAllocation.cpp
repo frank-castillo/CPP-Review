@@ -27,7 +27,7 @@ void Square(const int& number, int& result)
     result = number * number;
 }
 
-int main()
+int Pointers_main()
 {
     // Pointers
     {
