@@ -8,6 +8,36 @@
 using std::cout, std::endl, std::cin, std::string;
 using namespace std::chrono;
 
+class MyBuffer
+{
+public:
+    explicit MyBuffer(const unsigned int length)
+    {
+        cout << "Constructor allocates: " << length << " integers" << endl;
+        myNums = new int[length]; // Dynamic memory!
+    }
+
+    ~MyBuffer()
+    {
+        cout << "Destructor called. Clearing memory buffers..." << endl;
+        delete[] myNums; // Deallocate memory, return it to the free memory pool
+    }
+
+    void PrintAddress()
+    {
+        cout << "Buffer stored at address: " << &myNums << endl;
+    }
+
+private:
+    int *myNums;
+};
+
+void UseMyBuffer(MyBuffer copyBuffer)
+{
+    cout << "Buffer copy will be destroyed once out of the function." << endl;
+    copyBuffer.PrintAddress();
+}
+
 int main()
 {
     // Basics of Object Oriented Programming
@@ -178,9 +208,77 @@ int main()
 
         // Copy Constructors
         {
+            // - Before we delve deeper into this topic, first we need to understand how the C++ compiler handles
+            //   copying variables and objects
+
+            // SHALLOW COPIES
+            {
+                /*
+                 * - Shallow copies are the default behaviour of many programming languages
+                 * - Unless dealing with simple data, shallow copies can be threats to the stability of an application!
+                 * - Shallow copies copy all of the member field values (varibles & methods) of an object
+                 * - Any references (memory address) to other objects, pointers, or blocks of memory will be copied as is,
+                 *   meaning that the copied object will be pointing to the same memory location as the original object
+                 * - With this in mind, any changes to the member variables that happen either in the original object or
+                 *   the copied object, will be reflected on all instances!
+                 * - What this means, is that if we were to change the value of an integer pointer in a shallow object, the
+                 *   value/data of that variable will also change in the original object, because they share the same memory
+                 *   address references
+                 */
+
+                cout << "\n\nShallow copy demonstration!" << endl;
+                MyBuffer firstBuffer{5};
+                UseMyBuffer(firstBuffer);
+
+                /*
+                 * - Depending on your compiler and toolset, some behaviours might not happen
+                 * - On g++ and MSVC, the application will crash at this point because of a duplicate delete call to a block of
+                 *   memory that has already been cleared. This happened because the method UseMyBuffer creates a shallow copy
+                 *   of the object being passed as an argument. Once the copy goes out of scope, it clears the same block of
+                 *   memory that the original object is pointing to, and once the original object clears its memory, the app
+                 *   will crash because of the duplicate delete calls to an already cleared block.
+                 * - This goes on to show why shallow copies are so dangerous and why the default copy method in C++ is not
+                 *   safe when dealing with complex/custom types
+                 */
+            }
+
+            /*
+             * - On shallow copies, the copy method used is known as a binary copy.
+             * - This binary copy makes plain copies of the exisiting data in members, disregarding any other information
+             * - This is why pointers values, which are just memory addresses, are the same, the compiler does not care
+             *   nor is aware of the block of memory, all it knows is the pointer has a valid address and that is the value
+             *   it will copy on the new copy-object
+             * - For this reason, we have to ensure that whenever we are going to make copies of any objects or variables
+             *   containing pointers or dynamically allocated memory, to perform a DEEP COPY, eliminating this way any of
+             *   the program breaking errors introduced by shallow copies
+             */
+
+            // DEEP COPIES
+            {
+                /*
+                 * - Deep copies are a more complete and safe solution to avoid the problems caused by shallow copies
+                 * - Deep copies will copy as is all the primitive member variables, ensuring both the original object and
+                 *   the copy have the same data. However, for all dynamically allocated memory data and objects that are
+                 *   being pointed to by the original instance, new blocks and addresses of memory will be created.
+                 * - Once these new blocks of memory have been allocated, we will duplicate one by one the values contained
+                 *   in the original instance into the copy's newly allocated memory, effectively creating a DEEPER COPY
+                 * - This way, any new object that is a copy of another, will have the same values as the original but will
+                 *   have different memory addresses for all pointers and dynamically allocated memory, effectively creating
+                 *   an independent instance that will never modify the original objects values and only manages its own memory
+                 * - However, the compiler has no way to understand and automatically do this advanced deep copy by itself,
+                 *   so, it is our job, as the programmer, to provide the functionality and methods to copy the data the way
+                 *   we want it trough a COPY CONSTRUCTOR
+                 */
+            }
+
+            // COPY CONSTRUCTOR
+            {
+
+            }
 
         }
 
+        // Class Implementation
         class Human
         {
         public:
