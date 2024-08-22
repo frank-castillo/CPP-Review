@@ -306,7 +306,7 @@ int Pointers_main()
         // Use of const on pointers
         {
             // - The const keyword affects pointers in a different way than it would other types
-            // - The concept remains the same, a fixed value given at initialization that wont change. However, when on poiters
+            // - The concept remains the same, a fixed value given at initialisation that won't change. However, when on pointers
             // - there are 3 case scenarios we will run into:
 
             // First case -> Address contained in the pointer is constant and cannot be changed, but the data at the address can be changed
@@ -331,9 +331,9 @@ int Pointers_main()
             //*restrictivePointer = 35; // CANT DO!
             //restrictivePointer = &secondsInHour; // CANT DO!
 
-            // - Important to remember these behaviours, espcially when passing pointers in functions!
+            // - Important to remember these behaviours, especially when passing pointers in functions!
 
-            // - Function parameters should be declared to support the most restricitve level of constness in orde to
+            // - Function parameters should be declared to support the most restrictive level of constness in order to
             //   protect your application and prevent bugs
             // - Also called CONST CORRECTNESS, but there are more cases under this standard, so do some research!
             // - Will tackle const correctness later on

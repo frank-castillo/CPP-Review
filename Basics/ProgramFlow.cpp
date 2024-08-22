@@ -51,11 +51,11 @@ int ProgramFlow_main() {
         }
 
         // In C++, when evaluating a conditional expression, any value that is nonzero(0, null, nullptr, empty, etc.) will be considered true
-        // Else constructs are optional. They are not needed in situations where there is nothing to be executed in the event of a false result.
+        // Else constructs are optional. They are unnecessary in situations where there is nothing to be executed in the event of a false result.
 
         // IF statements, just any other expressions, are bound to a scope.
-        // Statements inside an If construct, are considered to be compound statements/blocks, and as such, once outside the scope, the data
-        // will cease to exist and the memory will be released (make sure to ensure proper memory cleaning when allocating memory dynamically)
+        // Statements inside an If construct are considered to be compound statements/blocks. As such, once outside the scope, the data
+        // will cease to exist, and the memory will be released (make sure to ensure proper memory cleaning when allocating memory dynamically)
         {
             cout << "\n\nSafe char[] management" << endl;
             cout << "Input a line of text: " << endl;
@@ -99,7 +99,7 @@ int ProgramFlow_main() {
         // Nested IF statements
         {
             // Nested If statements
-            // Useful when the evaluation of a condition is dependant on the evaluation of a previous conditional value
+            // Useful when the evaluation of a condition is dependent on the evaluation of a previous conditional value
             // Be aware of scopes and where variables are being initialized to ensure proper program flow
             std::srand(std::time(nullptr));
 
@@ -110,9 +110,9 @@ int ProgramFlow_main() {
 
             // Top if statement
             if(!willMultiply) {
-                // Nested If statement to check if the divisor is non-zero
-                // Any variable or expressions created inside this scope, will not be visible to the top if statement
-                // They will be visible to all consecutive nested if staments inside each respective construct
+                // Nested If statement to check if the divisor is non-zero.
+                // Any variable or expressions created inside this scope will not be visible to the top if statement.
+                // They will be visible to all consecutive nested if statements inside each respective construct.
                 if(num2 != 0) {
                     result = num1 / num2;
                 }
@@ -121,7 +121,7 @@ int ProgramFlow_main() {
                 }
             }
             else {
-                // Else construct that belongs to the top statement
+                // Else construct that belongs to the top statement.
                 result = num2 + num1;
             }
         }
@@ -160,8 +160,8 @@ int ProgramFlow_main() {
             {
                 // Inside this block, it is an internal scope, so variables declared inside are not visible to the top scope
                 case Sunday:
-                    // When declaring variables inside a switch, separate initialization as to avoid cross initialization errors
-                    // The errors occurs because you are jumping past the initialization of the variable when going from case to case
+                    // When declaring variables inside a switch, separate initialisation as to avoid cross-initialisation errors
+                    // The errors occurs because you are jumping past the initialisation of the variable when going from case to case
                     unsigned short switchVar;
                     switchVar = 10;
                     cout << "It is Sunday!" << endl;
@@ -240,7 +240,7 @@ int ProgramFlow_main() {
             printTypeInfo(3.14);  // Will trigger the floating point type branch
             printTypeInfo("Hello World");  // Will trigger the unknown type branch
 
-            // Because all the arguments provided are literals, they count as constants, and as such, the compiler will evaluate the conditions and have the result reeady
+            // Because all the arguments provided are literals, they count as constants, and as such, the compiler will evaluate the conditions and have the result ready
         }
     }
 

@@ -10,7 +10,7 @@ constexpr double pi = 3.14159265;
 
 // Function Declarations - kind of function prototype
 // Tells the compiler a function exists so that it can use it without a body yet being present
-// Body of the funtion must be declared in order to compute a result or perform a task (Function Definition)
+// Body of the function must be declared in order to compute a result or perform a task (Function Definition)
 // Also called forward declaration
 double CalculateArea(double radius);
 double CalculateDynamicArea(double radius, double pi = 3.14);
@@ -223,7 +223,7 @@ int Functions_main()
      * - The compiler converts function calls into CALL instructions for the microprocessor. CALL instructions are paired with an address in memory that points
      *   to the next set of instructions, which are contained inside a function (function statements are contiguous memory blocks)
      * - When the microprocessor sees the CALL instruction, it saves on the stack the memory of the next instruction to be executed after a function call and
-     *   proceeds to jump to the adress associated with the CALL instruction
+     *   proceeds to jump to the address associated with the CALL instruction
      * - Once at the new address, the microprocessor will execute all the instructions of the function and will only stop once the instruction RET is found
      * - RET instruction indicates to the microprocessor to pop the top element of the stack, which will be the address of the next instruction after the function
      *   call, and jump back to that address. Once back to the original address, the microprocessor continues executing the following instructions an so on...
