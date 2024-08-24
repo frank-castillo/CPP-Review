@@ -64,7 +64,7 @@ int Functions_main()
     // Functions allow us to compartmentalize and organize a program's execution logic
     // Enables us to split the contents of an application into logical blocks that are invoked sequentially
     // Functions can take parameters and return values based on their needs
-    // It must be invoked in order to peform its task
+    // It must be invoked in order to perform its task
     // Great for code reusability!
 
     /*
@@ -80,9 +80,9 @@ int Functions_main()
      * FUNCTIONS CAN ONLY HAVE A SINGLE RETURN TYPE!
      *
      * Function definitions, are declared inside a statement block
-     * Return staments are mandatory unless the return type is void
+     * Return statements are mandatory unless the return type is void
      *
-     * Calling a function == Invoking a function
+     * Calling a function == Invoking a function.
      *
      * Function parameters are like local variables - they are only valid inside the function's scope
      * Unless passed by reference or pointer, the compiler creates a local copy of the arguments for use inside the function
@@ -118,7 +118,7 @@ int Functions_main()
      * Parameters with a default value become optional, giving the programmer the ability to either modify the base value or carry on a process
      * with a preset value
      *
-     * Funtions can have multiple default value arguments. HOWEVER! They should all be at the end of the arguments list in a function declaration
+     * Functions can have multiple default value arguments. HOWEVER! They should all be at the end of the arguments list in a function declaration
      * double Area(double radius, double pi = 3.1416, double height = 10); This is proper syntax
      * double Area(double radius = 3, double pi, double height = 10); This is WRONG!
      */
@@ -141,7 +141,7 @@ int Functions_main()
     /*
      * RECURSION
      * Functions that invoke themselves
-     * Dangerous to work with if not well structured
+     * Dangerous to work with if not well-structured
      * Recursive functions need a clearly defined exit condition, where it returns without invoking itself again
      *
      * IN THE CASE THERE IS AN ABSENCE OF AN EXIT CONDITION OR A BUG IN THE EXIT CONDITION
@@ -200,7 +200,7 @@ int Functions_main()
     // Passing arguments as reference
     // Useful when you need a function to work on a variable that modifies a value available outside the function
     // Instead of making a copy of the argument's value, the functions works directly with the original value/memory contents
-    // Use the & next to a vartiable type to indicate to the compiler that the argument is to be passed as a reference and not a copy
+    // Use the & next to a variable type to indicate to the compiler that the argument is to be passed as a reference and not a copy
     // This is the best way to simulate multiple returns, as the function's logic can modify the value of multiple variables at once with no need to
         //  return and just making use of the reference functionality
 
@@ -215,7 +215,7 @@ int Functions_main()
 
     /*
      * So, how does this work?
-     * - Function calls cause the microprocessor to "jump" to execute the next instruction contained inside a function at a nonsequential memory location
+     * - Function calls cause the microprocessor to "jump" to execute the next instruction contained inside a function at a non-sequential memory location
      * - Once all the instructions or a return statement is encountered in the function's block, the microprocessor jumps back to where it left off and
      *   continues to execute the instructions following a function call
      *
@@ -228,12 +228,12 @@ int Functions_main()
      * - RET instruction indicates to the microprocessor to pop the top element of the stack, which will be the address of the next instruction after the function
      *   call, and jump back to that address. Once back to the original address, the microprocessor continues executing the following instructions an so on...
      *
-     * - This entire process happens at incredible speeds under the hood and usually we don't notice it.
+     * - This entire process happens at incredible speeds under the hood, and usually we don't notice it.
      * - Because of that, we are able to separate and systematically design our program to carry out different functions based on our needs
      *
      * - However, at times, some functions are so simple that the entire process of creating a CALL, have the microprocessor jump to another address, etc.
      *   is too expensive for what the function actually does. For these cases, we can use the inline keyword and inline functions directly to our code.
-     * - This will tell the compiler to add the individual instructions of a function direclty at where the calling statement is, avoiding the overhead and CALL instruction
+     * - This will tell the compiler to add the individual instructions of a function directly at where the calling statement is, avoiding the overhead and CALL instruction
      * - This allows for less overhead and more efficient memory managing when working with functions
      */
 
