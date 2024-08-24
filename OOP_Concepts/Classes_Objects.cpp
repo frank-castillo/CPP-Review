@@ -223,7 +223,7 @@ namespace
     }
 }
 
-int main()
+int main_classes()
 {
     // Basics of Object-Oriented Programming
     {
@@ -335,7 +335,9 @@ int main()
         *                    public methods
         *   - ABSTRACTION: Simplify complexity, using methods and tools to represent more intricate systems in a simple way.
         *                  Keep private members unknown to the world but have simple ways to get the data you need from a class.
-        *   - Inheritance:
+        *   - Inheritance: Allows a class to inherit properties and behaviours (members and methods) from a base class.
+        *                  This promotes code reusability and a hierarchical relationship between related classes.
+        *                  It is also the stepping stone towards polymorphism.
         *   - Polymorphism:
         */
     }
@@ -1091,7 +1093,6 @@ int main()
     }
 
     SimpleClassImplementation();
-
     return 0;
 }
 

@@ -12,4 +12,5 @@ add_executable(CPP_Review Basics/main.cpp
         Basics/ProgramFlow.cpp
         Basics/Functions.cpp
         Basics/Pointers_DynamicMemoryAllocation.cpp
-        OOP_Concepts/Classes_Objects.cpp)
+        OOP_Concepts/Classes_Objects.cpp
+        OOP_Concepts/Inheritance.cpp)
