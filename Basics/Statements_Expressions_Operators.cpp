@@ -11,7 +11,7 @@ using std::endl;
 
 int Week05_main() {
 
-    // Compund statement, also called a block
+    // Compound statement, also called a block
     // Delimited by {}, defined internally by programmer
     // Creates a scope for variables and methods, grouping statements that belong together -> be aware of scope!
     // If statements and loops make use of blocks for their logic
@@ -103,7 +103,7 @@ World" << endl;
         {
             // Relational Operators (<, >, <=, >=)
             // Helpful to check for inequality of a variable against a value
-            // The result of these ralational operators is a bool
+            // The result of these relational operators is a bool
             const int currentYear {2024};
             bool relationalCheck {false};
 
@@ -154,7 +154,7 @@ World" << endl;
             // AND, OR, and XOR operators require 2 operands
 
             // Logical AND operation
-            // Evaluates to true only when each operand evalutes to true
+            // Evaluates to true only when each operand evaluates to true
             // Supported by operator &&
             /*
              * Operand 1    Operand 2   Result of O1 AND O2
@@ -259,7 +259,7 @@ World" << endl;
 
             // For either operator the syntax is as follows:
             // L-value + << + number of times you wish to divide or multiply by 2
-            // E.G. myNumber << 2;  This will mutiply myNumber twice by 2 == myNumber * 2 * 2;
+            // E.G. myNumber << 2; This will multiply myNumber twice by 2 == myNumber * 2 * 2;
 
             // IMPORTANT TO NOTE!
             // Bitwise shift operators DO NOT rotate values!
@@ -279,7 +279,7 @@ World" << endl;
         }
 
         {
-            // Compund assignment operators (+=, -+, *=, /=, %=, <<=, >>=, &=, |=, ^=)
+            // Compound assignment operators (+=, -+, *=, /=, %=, <<=, >>=, &=, |=, ^=)
             // Assignment operators where the left operand is assigned the value resulting from the operation
             const int initialValue {22};
             int num1 {initialValue};
@@ -366,7 +366,7 @@ World" << endl;
              *                     Member selection                 Left to right       ., ->
              *                     Subscripting                     Left to right       ()
              *                     Increment                        Left to right       ++
-             *                     Decremet                         Left to right       --
+             *                     Decrement                        Left to right       --
              * 3
              *                     sizeof()                         Right to left       sizeof()
              *                     Prefix increment                 Right to left       ++
@@ -404,7 +404,7 @@ World" << endl;
              * 13
              *                     Bitwise OR                       Left to right       |
              * 14
-             *                     Logial AND                       Left to right       &&
+             *                     Logical AND                      Left to right       &&
              * 15
              *                     Logical OR                       Left to right       ||
              * 16
@@ -415,7 +415,7 @@ World" << endl;
              *                     Comma                            Left to right       ,
              */
 
-            // Lets use this example to see in in action
+            // Let's use this example to see in action
             // The operation is the same in all cases, but we break it down into smaller batches based on the operators precedence
 
             cout << "\n\nShowcasing operator precedence" << endl;

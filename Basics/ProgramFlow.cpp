@@ -29,7 +29,7 @@ int ProgramFlow_main() {
         {
             // If... Else
             // A construct for conditional execution
-            // Based on wether a conditional variable evaluates to true or false, certain code statements will be excuted or ignored
+            // Based on whether a conditional variable evaluates to true or false, certain code statements will be executed or ignored
 
             bool willMultiply;
             const int num1 {10};
@@ -132,9 +132,9 @@ int ProgramFlow_main() {
             // Another type of construct
             // Enables to check a particular expression against a host of possible constants and perform different actions for each of those values
 
-            // Code evaluates the expression and checks for each of the case labels following it for equality (expresion == case label)
-            // Each labes has to be constant
-            // Program will execute statements inside the case lable block that match the equality (expression == case label)
+            // Code evaluates the expression and checks for each of the case labels following it for equality (expression == case label)
+            // Each label has to be constant
+            // Program will execute statements inside the case label block that match the equality (expression == case label)
             // Makes use of special keyword: break. This keyword indicates the program to exit the block of code that belongs to the construct and execute the next statements
             //      Breaks are not compulsory. However, if not placed, the code will then go and evaluate all the remaining case labels until there are no more case labels
             //      or a default case label is reached
@@ -216,7 +216,7 @@ int ProgramFlow_main() {
             const short num2 {50};
             short max = (num1 > num2) ? num1 : num2; // The result will be 50, as 50 is the greater number
 
-            // The stement above encapsulates the following construct:
+            // The statement above encapsulates the following construct:
             if(num1 > num2) {
                 max = num1;
             }
@@ -234,7 +234,7 @@ int ProgramFlow_main() {
             // Gets the compiler to validate the conditional expression
             // Then code within a conditional if constexpr that is not to be executed is ignored by the compiler and is not part of the executable
             // Helpful on template classes
-            // See example templetized function at the top ^
+            // See example templatize function at the top ^
 
             printTypeInfo(10);    // Will trigger the integral type branch
             printTypeInfo(3.14);  // Will trigger the floating point type branch
@@ -254,7 +254,7 @@ int ProgramFlow_main() {
         {
             // Rudimentary loop
             // Instructs code to continue execution from a particular, labeled point in code
-            // Can be used to go backwards and re-execute certain staments
+            // Can be used to go backwards and re-execute certain statements
 
             // Simple declaration of the loop
             //Start: // Create a label that will be the identifying point of code to execute
@@ -322,7 +322,7 @@ int ProgramFlow_main() {
         // Do-While loops
         {
             // Similar syntax and exit conditions as a while loop
-            // The only difference is that this loop will trigger the contents inside of the construct at least once
+            // The only difference is that this loop will trigger the contents inside the construct at least once
             //      before evaluating the loop condition
 
             const short num1 = 5;
@@ -415,7 +415,7 @@ int ProgramFlow_main() {
             // Uses the same keyword as a for loop
 
             // Syntax for it:
-            // for(varType variable : seqeunce )
+            // for(varType variable : sequence )
             // {
             //     Use variable for logic pertaining to the element inside the logic...
             // }
@@ -462,10 +462,10 @@ int ProgramFlow_main() {
 
         // Continue and break loop modifiers
         {
-            // Continue resumes the exection of code from the top of the loop
+            // Continue resumes the execution of code from the top of the loop
             // Code statements following the continue keyword are skipped
             // The continue keyword in a for loop cause the loop expression to be evaluated first (e.g. increase the iterator)
-            //      before reevaluating the connditional statement (whether the loop should continue or not)
+            //      before reevaluating the conditional statement (whether the loop should continue or not)
 
             // Break exits the loop's block, thereby ending the loop when invoked
 
@@ -503,7 +503,7 @@ int ProgramFlow_main() {
 
         // Infinite loops
         {
-            // Infinite loops happen when when you program a condition that always evaluates to true
+            // Infinite loops happen when you program a condition that always evaluates to true
             // useful for OS operations and checks, or vital functions that should not stop while a program is being executed
 
             // Infinite while loop
@@ -519,7 +519,7 @@ int ProgramFlow_main() {
             // {
             // }
 
-            // You control infinite loops by adding a break statement in a block of code that monitors wether the loop should
+            // You control infinite loops by adding a break statement in a block of code that monitors whether the loop should
             // keep running or not
 
             // Infinite while loop with conditional break statement
@@ -555,7 +555,7 @@ int ProgramFlow_main() {
 
         // Nested Loops
         {
-            // Just as with nested if statements, bsed on the needs of your application there will be a need to use nested loops
+            // Just as with nested if statements, based on the needs of your application there will be a need to use nested loops
             // in order to access specific information contained in multidimensional arrays or perform logical operations
             // Computer graphics, 2D game maps, and serialization systems are examples of systems that use nested for loops
 
@@ -574,9 +574,9 @@ int ProgramFlow_main() {
             }
 
             // In this case, each loop is in charge of traversing a specific collection
-            // With each iteration of the frst for loop (Loop i), the second loop (loop j) will run and execute the logic inside its block
+            // With each iteration of the first for loop (Loop i), the second loop (loop j) will run and execute the logic inside its block
             // In each iteration of the second loop, all the elements of the second array are accessed and multiplied by the current indexed int of the first array
-            // For each element of array1, the second loop iterates over all elements of array2, multiplying the cached value of i by the iterator j
+            // For each element of array1, the second loop iterates over all elements of array2, multiplying the cached value of i times the iterator j
 
             // How to walk a multidimensional array?
             cout << "\n\nWalking a multidimensional array!" << endl;
