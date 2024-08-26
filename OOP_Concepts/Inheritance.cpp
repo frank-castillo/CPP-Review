@@ -475,6 +475,9 @@ int main()
 
                 HidingCarp hCarp{};
                 hCarp.Swim(true); // Here, we get access to the base method thanks to the using keyword
+
+                HidingBass hBass{};
+                hBass.Swim(true); // Overloading of all base class functions and use of scope resolution
             }
             cout << "\n\n" << endl;
         }
@@ -641,6 +644,78 @@ int main()
         }
         cout << "\n\n" << endl;
 
+        // Multiple inheritance
+        {
+            /*
+             * - C++ allows classes to inherit and create a derived class from multiple base classes at once.
+             * - Just as with single class inheritance, you can especify per class the access specifier the derive
+             *   class will have.
+             * - Follow the next syntax to declare multiple inheritance:
+             *  - class Derived : access-specifier BaseClass01, access-specifier BaseClass02, access-specifier Base...
+             * - With this implementation, the new derived class is able to use and access all the public members of
+             *   the multiple classes that parent it, allowing for more intricate systems.
+             */
+
+            class Mammal
+            {
+            public:
+                void FeedWithMilk() const
+                {
+                    cout << "Mammal: Feeds young with milk!" << endl;
+                }
+            };
+
+            class Bird
+            {
+            public:
+                void LayEggs()
+                {
+                    cout << "Bird: Lays Eggs" << endl;
+                }
+            };
+
+            class Echidna : public Mammal, public Bird
+            {
+            public:
+                void TurnIntoBall() const
+                {
+                    cout << "Echidna: Turns into a ball!" << endl;
+                }
+            };
+
+            cout << "Multiple inheritance implementaion!" << endl;
+
+            Echidna echidna;
+
+            cout << "Echidna inherits from: Mammal and Bird" << endl;
+            cout << "Using an instance of Echidna, we will invoke methods from both classes" << endl;
+            echidna.FeedWithMilk();
+            echidna.LayEggs();
+            echidna.TurnIntoBall();
+        }
+        cout << "\n\n" << endl;
+
+        // Avoiding inheritance using Final
+        {
+            /*
+             * - There will be cases in which you need to ensure that a class cannot be used as a base class.
+             * - The specifier FINAL, introduced in C++ 11, implments this behaviour.
+             * - Any classes that are declared as FINAL cannot be used as base classes.
+             * - This will not affect the class's ability to inherit from other base classes. All it does is prevent new
+             *   inheritance hierarchies off of the new derived class.
+             * - The same declaration can be used with MEMBER METHODS to control a concept known as polymorphism.
+             *  - See the file on polymorphism for more informaion.
+             */
+
+            class Mammal{};
+            class Bird{};
+            class Echidna final : public Mammal, public Bird {};
+
+            // The following line, if uncommented, will cause the project to fail compilation with the following
+            // message: Cannot inherit from final class: Echidna
+            //class EchidnaPlus : public Echidna {};
+        }
+
         // Composition and Aggregation
         {
             /*
@@ -742,6 +817,36 @@ int main()
                 // overall functionality is not hindered by them not existing any more.
                 // delete aStudent;
             }
+        }
+
+        // Final Notes
+        {
+            /*
+             * - Use public inheritance hierarchies to establish an IS-A relationship between classes
+             * - Use private or protected inheritance hierarchy to establish a HAS-A relationship between classes.
+             *   However, this is better done after no other design options were a viable construct.
+             * - Private members, regardless of the access-specifier, cannot be accessed by derived classes. Only those
+             *   marked as public or protected are accessible with limitatios on functionality based out of the access
+             *   specifier.
+             * - Private inheritance will prevent derived classes from the derived class to access the public/protected
+             *   methods and member variables of the base class.
+             * - Protected inheritance will allow derived classes from the derived class to access the public/protected
+             *   methods from the base class. However, an object of the derived class cannot access public members of
+             *   the base class. Only the class itself can access them.
+             * - Public inheritance allows access to all methods and member variables from the base class that are
+             *   marked as public and protected. An object of the derived class has full access to the methods and
+             *   member variables marked as public and protected of the base class.
+             *
+             * - DON'T create classes or inheritance hierarchies just to reuse functionality already implemented.
+             *   Consider creating interfaces or a component based system that implements a specific behaviour.
+             * - DON'T overuse inheritance. Doing so will affect your application's scalability and cause performance
+             *   bottlenecks.
+             * - Don't hide base class methods by writing methods in the derived class that have the same name but
+             *   take different arguments. Either name them something different or make use of the following syntax:
+             *   "using BaseClassType::MethodBeingHidden".
+             * - DON'T pass objects of a class to a function by value, instead pass them as references or pointers. This
+             *   will help avoiding slicing issues or unneccessary copies.
+             */
         }
     }
 
