@@ -180,7 +180,7 @@ namespace CarClasses
     };
 }
 
-int main()
+int main_inheritance()
 {
     // INHERITANCE
     {
