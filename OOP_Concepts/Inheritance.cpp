@@ -648,7 +648,7 @@ int main_inheritance()
         {
             /*
              * - C++ allows classes to inherit and create a derived class from multiple base classes at once.
-             * - Just as with single class inheritance, you can especify per class the access specifier the derive
+             * - Just as with single class inheritance, you can specify per class the access specifier the derive
              *   class will have.
              * - Follow the next syntax to declare multiple inheritance:
              *  - class Derived : access-specifier BaseClass01, access-specifier BaseClass02, access-specifier Base...
@@ -699,12 +699,12 @@ int main_inheritance()
         {
             /*
              * - There will be cases in which you need to ensure that a class cannot be used as a base class.
-             * - The specifier FINAL, introduced in C++ 11, implments this behaviour.
+             * - The specifier FINAL, introduced in C++ 11, implements this behaviour.
              * - Any classes that are declared as FINAL cannot be used as base classes.
              * - This will not affect the class's ability to inherit from other base classes. All it does is prevent new
              *   inheritance hierarchies off of the new derived class.
              * - The same declaration can be used with MEMBER METHODS to control a concept known as polymorphism.
-             *  - See the file on polymorphism for more informaion.
+             *  - See the file on polymorphism for more information.
              */
 
             class Mammal{};
@@ -826,7 +826,7 @@ int main_inheritance()
              * - Use private or protected inheritance hierarchy to establish a HAS-A relationship between classes.
              *   However, this is better done after no other design options were a viable construct.
              * - Private members, regardless of the access-specifier, cannot be accessed by derived classes. Only those
-             *   marked as public or protected are accessible with limitatios on functionality based out of the access
+             *   marked as public or protected are accessible with limitations on functionality based out of the access
              *   specifier.
              * - Private inheritance will prevent derived classes from the derived class to access the public/protected
              *   methods and member variables of the base class.
@@ -845,7 +845,7 @@ int main_inheritance()
              *   take different arguments. Either name them something different or make use of the following syntax:
              *   "using BaseClassType::MethodBeingHidden".
              * - DON'T pass objects of a class to a function by value, instead pass them as references or pointers. This
-             *   will help avoiding slicing issues or unneccessary copies.
+             *   will help avoiding slicing issues or unnecessary copies.
              */
         }
     }
