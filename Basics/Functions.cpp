@@ -69,7 +69,7 @@ int Functions_main()
 
     /*
      * A function is composed of a return type, a name, and optional parameters
-     * returntype MyFunctionName(parameters)
+     * returnType MyFunctionName(parameters)
      *
      * If a function does not return anything to the function that invoked it, mark the return type as void
      * Parameters are optional. They should be delimited by commas, and a type has to be specified
@@ -133,7 +133,7 @@ int Functions_main()
     cout << "Area of circle with radius: " << radius << " using default pi value: " << CalculateDynamicArea(radius) << endl;
 
     // As seen above, the function call is the same, however one does provide a second argument while the other does not, with the compiler reverting to the default value
-    // Definitions do not need to specifiy the default value again, only the declaration does
+    // Definitions do not need to specify the default value again, only the declaration does
 
     //------------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------------

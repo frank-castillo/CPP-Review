@@ -44,14 +44,14 @@ int Pointers_main()
 
         // POINTER DECLARATION
         /*
-         * - Pointers are normally declared to point to an specific vlaue type
+         * - Pointers are normally declared to point to a specific value type
          * - The address contained in the pointer points to a location in memory that holds that type
          * - E.G. An int pointer will point to a location that contains an int
          *
          * - You can also declare void pointers. This type of pointer points to an unspecified type and directly addresses
          *   a block of memory
          *
-         * - Pointer sysntax is as follows:
+         * - Pointer syntax is as follows:
          *   [PointerType]* [PointerVariableName]
          *   int* pointerToInt;
          *
@@ -64,7 +64,7 @@ int Pointers_main()
          * int* pointerToInt = NULL;
          */
 
-        // Determining the address of a varible using the reference operator and assign it to a pointer
+        // Determining the address of a variable using the reference operator and assign it to a pointer
         {
             /*
             * In order to get the address in memory of a variable we need to make use of the reference operator &
@@ -75,8 +75,8 @@ int Pointers_main()
             const double pi{3.1416};
 
             cout << "Determining addresses through & operator (Reference)" << endl;
-            cout << "Integer age is locaed at: " << &age << endl;
-            cout << "Const double pi is locaed at: " << &pi << endl;
+            cout << "Integer age is located at: " << &age << endl;
+            cout << "Const double pi is located at: " << &pi << endl;
 
             // Using pointers to store an address
             // - To store an address, we declare a pointer of the same type and initialize the pointer to a variable's
@@ -90,7 +90,7 @@ int Pointers_main()
             cout << "Double pointer for pi points at: " << doublePointer << endl;
 
             // Once you run the program, you can see how both variables and pointers point to the same address
-            // Pointers point to the aaddress assigned to the varibles at the top of this code segment
+            // Pointers point to the address assigned to the variables at the top of this code segment
 
             // Pointers as any other variables CAN BE REASSIGNED!
             // Make sure the types are the same! Otherwise, you cannot assign it (E.g. int* cannot be assigned const int*)
@@ -167,7 +167,7 @@ int Pointers_main()
             // - Pointers contain a memory address, so regardless of the type of variable it is pointing to (int*, double*)
             //   the contents of a pointer will be an address (represented in hex numbers), nothing else
             // - With that in mind, the length of an address (number of bytes required to store it) is a constant size for a
-            //   given system. The platform buildset and compiler being used will define this constant value
+            //   given system. The platform build set and compiler being used will define this constant value
             // - Use sizeof() operator to check your systems size constant for an address
 
             cout << "\n\nPointer size comparisons!" << endl;
@@ -181,7 +181,7 @@ int Pointers_main()
             cout << "Size of int* = " << sizeof(int*) << endl;
             cout << "Size of double* = " << sizeof(double*) << endl;
 
-            // - As seein in the implemetation above, regardless of the type of variable, a pointer will occupy the same space
+            // - As seen in the implementation above, regardless of the type of variable, a pointer will occupy the same space
             //   in memory even though its fundamental type might only require a single byte of data
             // - For a 64-bit system, the address length tends to be 8 bytes
             // - For a 32-bit system, the address length tends to be 4 bytes
@@ -203,7 +203,7 @@ int Pointers_main()
         // Dynamic Memory Allocation using new and delete operators
         /*
          * - We use new to allocate memory blocks
-         * - Most frequent usedf form of new returns a pointer to the allocated memory if successful. If not, an exception occurs
+         * - Most frequent used form of new returns a pointer to the allocated memory if successful. If not, an exception occurs
          * - When using new, you must specify the data type for which memory is being allocated
          *      Type* pointer = new Type;
          * - The syntax above requests memory for one element
@@ -213,7 +213,7 @@ int Pointers_main()
          *
          * - [new] indicates a request for memory. However, there is no guarantee this call will always succeed.
          *   Memory being allocated depends on the state of the system and how much memory is available
-         * - Any allocation that uses [new] needs to be eventually released using an equal and opposite deallocation [delete]
+         * - Any allocation that uses [new] needs to be eventually released using an equal and opposite de-allocation [delete]
          * - [delete] is used for a single element
          * - [delete[]] is used for clearing a block of memory
          *
@@ -231,7 +231,7 @@ int Pointers_main()
         cout << "\n\nDynamic Memory allocation!" << endl;
         int* ageData = new int;
         cout << "Enter an age value: " << endl;
-        cin >> *ageData; // Remember to dereference so we can modify the addresse's data
+        cin >> *ageData; // Remember to dereference so we can modify the addresses data
         cout << "Age: " << *ageData << " is stored at: " << ageData << endl;
         delete ageData; // ALWAYS ENSURE YOU RELEASE ALLOCATED MEMORY!!!!
 
@@ -239,7 +239,7 @@ int Pointers_main()
         // - [new] returns a pointer (an address in memory), so that is why we use pointers as the variables to store
         //   dynamic allocated memory
         // - [delete] can only be invoked on an address that has been returned by the new operator!
-        //      DONT DELETE regular pointers! Let the application handle the release of regular primitive pointers
+        //      DON'T DELETE regular pointers! Let the application handle the release of regular primitive pointers
 
         cout << "\n\nDynamic Memory block allocation!" << endl;
         int memorySize{INT_MIN};
@@ -269,12 +269,12 @@ int Pointers_main()
              * - It DOES NOT traverse through individual bytes, but rather, traverses through the sizeof() its type
              * - An int is 4 bytes long, so a ++int* statement will shift the address 4 bytes, moving to the next integer
              *   in the memory block
-             * - By shifting the address of a pointer this way, the comiler ensures that any ++/-- pointer call does not
+             * - By shifting the address of a pointer this way, the compiler ensures that any ++/-- pointer call does not
              *   end up in the middle or end of data placed in memory, only the beginning
              *
              *   int* intPointer has address 0x002EFB34
              *   When we call ++intPointer the compiler performs => 0x002EFB34 + sizeof(int) == 0x002EFB34 + 4 bytes
-             *   Once the operationis completed, intPointer will now have the address 0x002EFB38
+             *   Once the operation is completed, intPointer will now have the address 0x002EFB38
              */
 
             int numbersToAllocate{5};
@@ -314,12 +314,12 @@ int Pointers_main()
             int daysInLunarMonth{28};
             int* const pointerToDays = &daysInMonth;
             *pointerToDays = 31; // The dereferenced data can still be changed!
-            //pointerToDays = &daysInLunarMonth; // This line if uncommmented will prevent compilation -> cant assign new address to const address
+            //pointerToDays = &daysInLunarMonth; // This line if uncommented will prevent compilation -> cant assign new address to const address
 
             // Second case -> Data pointed to CAN NOT be changed, it is constant. However, the address contained in the pointer can be changed
             int hoursInDay{24};
             int monthsInYear{12};
-            const int* pointerToHours{&hoursInDay}; // Initialization list assignment for this example -> Data can not be accesed, just the address!
+            const int* pointerToHours{&hoursInDay}; // Initialization list assignment for this example -> Data can not be accessed, just the address!
             pointerToHours = &monthsInYear; // Doable! We can assign a different address to the pointer
             //*pointerToHours = 25; // Not possible! The data is const, so it can't be changed. ONLY THE ADDRESS CAN BE CHANGED!
             //int* newPointer = pointerToHours; // Also not possible! Can't assign const to non-const types
@@ -339,7 +339,7 @@ int Pointers_main()
             // - Will tackle const correctness later on
 
             // - To easily identify the type of const you have or want, read it from right to left
-            // The next case is a constant pointer to an integer, hence why the adress can't change, const type
+            // The next case is a constant pointer to an integer, hence why the address can't change, const type
             // int* const pointerCannotChange;
 
             // The next case is a pointer to a constant integer, hence why the data can't change, const value
@@ -356,7 +356,7 @@ int Pointers_main()
              * - The memory space shared can also return the result of an operation
              * - It is important to ensure functions that have pointers or sensitive data as arguments are only allowed
              *   to modify the data that has to be modified.
-             *   - use the const word alongside the arguments of a function to control what can be mofified and what not
+             *   - use the const word alongside the arguments of a function to control what can be modified and what not
              *     in the definition/body of a function
              */
 
@@ -365,7 +365,7 @@ int Pointers_main()
             double area{LONG_MIN};
 
             // Make sure you use the reference operator to get the address of the variable
-            // REMEMBER! Pointers store and trasnfer memory addresses
+            // REMEMBER! Pointers store and transfer memory addresses
             CalculateArea(&pi, &radius, &area);
 
             cout << "\n\nPassing pointers to a function" << endl;
@@ -419,7 +419,7 @@ int Pointers_main()
         // POINTERS LEAKING TO INVALID MEMORY LOCATION
         /*
          * - Pointers point to invalid memory location
-         * - Can either cause the program to crash or present nexpected behaviour
+         * - Can either cause the program to crash or present unexpected behaviour
          */
         // Example of bad practices!
         /*{
@@ -469,7 +469,7 @@ int Pointers_main()
          * - Default method is the use of exceptions such as std::bad_alloc.
          *   - Exceptions disrupt the run of an application and unless there is an exception handler, the application ends
          *     with the error message "unhandled exception"
-         * - Second mehtod makes use of the variant new(nothrow)
+         * - Second method makes use of the variant new(nothrow)
          *   - This variant does not throw exceptions and instead, returns NULL to the pointer when the allocation fails
          *   - This way, we can check for validity of the pointer before using it and not exit the application abruptly
          */
