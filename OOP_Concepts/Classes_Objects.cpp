@@ -509,16 +509,21 @@ int main_classes()
                 UseMyBufferCopy(firstBuffer);
 
                 /*
-                 *  - Something important to keep in mind is that the Copy constructor will only be invoked whenever an
-                 *    explicit copy is being made. [void Foo(MyObject original) → direct copy of an object]
-                 *  - In cases where the assignment operator is used [auto copyObject = MyObject], the copy constructor
-                 *    will not be invoked as no overloaded assignment operator has been provided. Implement a custom
-                 *    assignment operator to ensure that a deep copy is performed.
-                 *  - Ensure const correctness when working with copy constructors. This will make sure the original
-                 *    object cannot be modified inside the copy function.
-                 *  - In addition to this, the parameter in the copy constructor is passed by reference as a necessity.
-                 *    If you remove the reference, the copy constructor will get caught inside an eternal copy loop
-                 *    until the system ran out of memory.
+                 * - Something important to keep in mind is that the Copy constructor will only be invoked whenever an
+                 *   explicit copy is being made. [void Foo(MyObject original) → direct copy of an object]
+                 * - In cases where the assignment operator is used [auto copyObject = MyObject], the copy constructor
+                 *   will not be invoked as no overloaded assignment operator has been provided. Implement a custom
+                 *   assignment operator to ensure that a deep copy is performed.
+                 * - Ensure const correctness when working with copy constructors. This will make sure the original
+                 *   object cannot be modified inside the copy function.
+                 * - In addition to this, the parameter in the copy constructor is passed by reference as a necessity.
+                 *   If you remove the reference, the copy constructor will get caught inside an eternal copy loop
+                 *   until the system ran out of memory.
+                 *
+                 * - If you want to prevent a class from being copied, you can declare the copy constructor and the
+                 *   copy assignment operator (See Operators.cpp) as private. This will cause the compiler to throw
+                 *   errors on any copy attempts made to any instance of that class either through a value method
+                 *   pass or assignment.
                  */
 
                 /*
