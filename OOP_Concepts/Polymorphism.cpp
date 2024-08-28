@@ -268,7 +268,7 @@ namespace OverrideFish
     };
 }
 
-int main()
+int main_Poly()
 {
     // What is Polymorphism?
     {
