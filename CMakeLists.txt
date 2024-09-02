@@ -3,7 +3,7 @@ project(CPP_Review)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(CPP_Review Basics/main.cpp
+add_executable(CPP_Review Basics/Extras.cpp
         Basics/Const_Lesson.cpp
         Basics/Arrays_DataContainers/StaticArrays.cpp
         Basics/Arrays_DataContainers/DynamicArrays.cpp
@@ -14,4 +14,5 @@ add_executable(CPP_Review Basics/main.cpp
         Basics/Pointers_DynamicMemoryAllocation.cpp
         OOP_Concepts/Classes_Objects.cpp
         OOP_Concepts/Inheritance.cpp
-        OOP_Concepts/Polymorphism.cpp)
+        OOP_Concepts/Polymorphism.cpp
+        OOP_Concepts/Operators.cpp)

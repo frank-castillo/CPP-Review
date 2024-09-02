@@ -1,6 +1,7 @@
 //
 // Created by juanf on 2024-02-13.
 //
+#include <string>
 #include <cstring>
 #include <iostream>
 
@@ -59,11 +60,11 @@ int strings_main() {
 
     string secondString;
     cout << "Enter a text:" << endl;
-    getline(cin, secondString);
+    std::getline(cin, secondString);
 
     string thirdString;
     cout << "Enter another text:" << endl;
-    getline(cin, thirdString);
+    std::getline(cin, thirdString);
 
     const string concetenateString = secondString + " " + thirdString;
     cout << "Concatenation of strings: " << concetenateString << endl;

@@ -50,4 +50,6 @@ int StaticArrays_main() {
             std::cout << "One-dimensioanl declared multi dimensional: Panel number: " << j << std::endl;
         }
     }
+
+    return 0;
 }
