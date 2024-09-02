@@ -195,6 +195,8 @@ namespace BufferClass
         explicit MyBuffer(const unsigned int length) : mSize(length)
         {
             mNumbers = new int[mSize]; // Allocate memory
+
+            cout << "Constructing new instance with: " << mSize << " elements." << std::endl;
         }
 
         virtual ~MyBuffer()
@@ -219,6 +221,20 @@ namespace BufferClass
             }
         }
 
+        MyBuffer(MyBuffer&& rhs) noexcept
+        {
+            cout << "Move constructor called!" << endl;
+            if (this != &rhs)
+            {
+                mSize = rhs.mSize;
+                mNumbers = rhs.mNumbers; // We take ownership of the memory pointer! No copy, we just take it
+
+                // Clear source resources after moving them to avoid any issues
+                rhs.mSize = 0;
+                rhs.mNumbers = nullptr;
+            }
+        }
+
         MyBuffer& operator=(const MyBuffer& rhs)
         {
             if (this != &rhs)
@@ -236,6 +252,41 @@ namespace BufferClass
             }
 
             return *this;
+        }
+
+        MyBuffer& operator=(MyBuffer&& rhs) noexcept
+        {
+            cout << "Move assignment operator" << endl;
+            if (this != &rhs && rhs.mNumbers != nullptr) // Ensure it's not ourselves and something can be moved!
+            {
+                delete[] mNumbers;
+                mSize = rhs.mSize;
+                mNumbers = rhs.mNumbers;
+
+                // Clear source resources after moving them to avoid any issues
+                rhs.mSize = 0;
+                rhs.mNumbers = nullptr;
+            }
+
+            return *this;
+        }
+
+        MyBuffer operator+(const MyBuffer& rhsToAppend)
+        {
+            cout << "Operator+: concatenation of buffers" << endl;
+            MyBuffer temp(this->mSize + rhsToAppend.mSize); // New combined length
+
+            for (int i = 0; i < this->mSize; ++i)
+            {
+                temp[i] = this->mNumbers[i];
+            }
+
+            for (int i = 0; i < rhsToAppend.mSize; ++i)
+            {
+                temp[i + this->mSize] = rhsToAppend.mNumbers[i];
+            }
+
+            return temp;
         }
 
         int& operator[](const unsigned int index)
@@ -266,6 +317,25 @@ namespace BufferClass
             cout << endl;
         }
     };
+}
+
+namespace Literals
+{
+    struct Temperature
+    {
+        double Kelvin;
+        explicit Temperature(long double Kelvin) : Kelvin(Kelvin) {}
+    };
+
+    Temperature operator""_C(long double celsius)
+    {
+        return Temperature(celsius + 273);
+    }
+
+    Temperature operator""_F(long double fahrenheit)
+    {
+        return Temperature((fahrenheit + 459.67) * 5 / 9);
+    }
 }
 
 int main()
@@ -768,9 +838,12 @@ int main()
                 buffer.DisplayBuffer();
 
                 BufferClass::MyBuffer copyBuffer{1};
+
                 cout << "Displaying copy buffer before copy assignment: " << endl;
                 copyBuffer.DisplayBuffer();
-                copyBuffer = buffer;
+
+                copyBuffer = buffer; // Copy assignment operator!
+
                 cout << "Displaying copy buffer after copy assignment: " << endl;
                 copyBuffer.DisplayBuffer();
 
@@ -832,6 +905,214 @@ int main()
                 cout << "Value extracted into another variable from copyBuffer: " <<value << endl;
             }
             cout << "\n\n" << endl;
+
+            // The function operator ( () )
+            {
+                /*
+                 * - The function operator makes objects behave like functions.
+                 * - This operator is heavily used in the Standard Template Library and STL Algorithms.
+                 * - This operator can be used to make decisions, and depending on the number of operands they work on,
+                 *   they can be unary or binary. We call this concept, unary predicate or binary predicate.
+                 *
+                 * - The compiler in this case allows the object to function as a function object, also called a
+                 *   functor. More on this in the FunctionObjects.cpp
+                 */
+
+                cout << "Operator () implementation" << endl;
+
+                class Display
+                {
+                public:
+                    void operator()(const string& inputString) const
+                    {
+                        cout << inputString << endl;
+                    }
+                };
+
+                Display display;
+                display("Hello World!"); // Equivalent to display.operator("Hello World")
+
+                cout << "\n\n" << endl;
+            }
+
+            // Move constructor and move assignment operator for High Performance Coding
+            {
+                /*
+                 * - Performance optimization features that became part of the C++ standard in C++11.
+                 * - They ensure that temporary values (rvalues that do not exist beyond the invoking statement) are not
+                 *   wastefully copied.
+                 * - This is incredibly useful when dealing with objects of class that manage dynamically allocated
+                 *   resources.
+                 *
+                 * - Let's analyze our Date class, declared at the top of this file.
+                 * - The addition operator creates a copy of the Date argument. This copy is then modified and finally
+                 *   its sent back as the return of the function. If we were to implement that same operator in our
+                 *   Buffer class, that concatenates the data of one buffer to the other we would end up with a long
+                 *   process of copies...
+                 *   - Buffer1{5}
+                 *   - Buffer2{5}
+                 *   - Buffer3(Buffer1 + Buffer2) -> operator+, copy constructor called
+                 *   - BufferTotal()
+                 *   - BufferTotal = Buffer1 + Buffer2 + Buffer3 -> operator+, copy constructors, copy assigment op.
+                 *
+                 * - As you can see, the process ends up generating multiple short-lived copies, that need to allocate
+                 *   memory, copy the values, modify the values, add new values, etc. All this will occupy many more
+                 *   resources and thus affect the performance of our program.
+                 * - Hence why the move constructor and move assignment operator were added to the standard. They help
+                 *   avoid the multiple internal copy process, enhancing the performance of the copy and assignment
+                 *   steps.
+                 *
+                 * - The declaration is as follows, do note the &&:
+                 * - Constructor
+                 *  Class(Class&& moveSource)
+                 *  {
+                 *      dynamicResourceN = moveSource.dynamicResourceN; We take ownership of the resource and move it
+                 *      moveSource.dynamicResourceN = nullptr;
+                 *  }
+                 * - Operator
+                 *  Class& operator=(Class&& moveSource)
+                 *  {
+                 *      delete/delete[] dynamicResourceN; Free owning resource
+                 *      dynamicResourceN = moveSource.dynamicResourceN; We take ownership of the resource and move it
+                 *      moveSource.dynamicResourceN = nullptr;
+                 *  }
+                 *
+                 *  \^o^/ Where N represents any number of dynamic resources (Most commonly pointers)
+                 *
+                 * - For this particular constructor and operator, the arguments cannot be made const as they have to be
+                 *   modified. So if they were to be const, no modification would be possible, and we will run into
+                 *   issues.
+                 *
+                 * - In standard-compliant compilers, it will be ensured that for rvalues temporaries, the move operator
+                 *   and constructor are used. This way, instead of creating a whole new copy, you are simply moving
+                 *   resources around, eliminating the need of extra steps.
+                 */
+
+                cout << "Move constructor and move assignment operator implementation!" << endl;
+
+                BufferClass::MyBuffer buffer(5);
+                BufferClass::MyBuffer buffer2(15);
+
+                cout << "Concatenate buffers with operator+ overload!" << endl;
+                BufferClass::MyBuffer buffer3(buffer + buffer2);
+                BufferClass::MyBuffer buffSum(1);
+
+                cout << "Concatenate buffers with assignment operator!" << endl;
+                buffSum = buffer + buffer2 + buffer3;
+
+                /*
+                 * - Depending on the compiler you are using, the output message will be different. For this instance,
+                 *   the project has been built with g++. So this is the output:
+                 *   - Constructing new instance with: 5 elements.
+                 *   - Constructing new instance with: 15 elements.
+                 *   - Concatenate buffers with operator+ overload!
+                 *   - Operator+: concatenation of buffers
+                 *   - Constructing new instance with: 20 elements.
+                 *   - Constructing new instance with: 1 elements.
+                 *   - Concatenate buffers with assignment operator!
+                 *   - Operator+: concatenation of buffers
+                 *   - Constructing new instance with: 20 elements.
+                 *   - Operator+: concatenation of buffers
+                 *   - Constructing new instance with: 40 elements.
+                 *   - Move assignment operator -> Move assignment operator was called!
+                 *
+                 * - The compiler does not automatically generate move constructors and move assignment operators.
+                 *   You always have to provide them yourself! In case they are not implemented, the compiler will
+                 *   revert to the copy constructor/assignment operator and create deep copies.
+                 *
+                 * - Although move constructors and operators are not required for the proper behaviour of a class,
+                 *   adding them helps to improve the performance of your code when dealing with dynamic resources that
+                 *   don't always require a full copy.
+                 */
+            }
+            cout << "\n\n" << endl;
+
+            // User-defined literals
+            {
+                /*
+                 * - Ever since C++11, the C standard has included features that enable you to define your own literals.
+                 * - To define your own literal, you define the ("") operator as follows:
+                 *  - ReturnType operator"" YourLiteral(ValueType value)
+                 *    {
+                 *      Conversion code here
+                 *    }
+                 *
+                 *  - For the ValueType in literals, things work a little different. Depending on the nature of the
+                 *    user-defined literal, the argument of the literal will be restricted to one of the following:
+                 *    - unsigned long long for integral literal.
+                 *    - long double for floating-point literal.
+                 *    - char, wchar_t, char16_t, or char32_t for character literal.
+                 *    - const char* for raw string literal.
+                 *    - const char* together with size_t for string literal.
+                 *    - const wchar_t* together with size_t for string literal.
+                 *    - const char16_t together with size_t for string literal.
+                 *    - const char32_t together with size_t for string literal.
+                 *
+                 * - Now, for what is this useful? In really specific use cases, it can make your code/application a lot
+                 *   simpler to read and maintain.
+                 * - Imagine you are working on a scientific application and all your calculations will be based off the
+                 *   Kelvin scale. With that being the case, you can declare all your temperatures as follows:
+                 *   - Temperature k1 = 32.15_F, k2 = 0.0_C
+                 *   - Notice the _F and the _C? These are literals that you can define in order to make your code more
+                 *     readable. For this case, they represent Celsius and Fahrenheit, but depending on your application
+                 *     you will declare literals that better fit your requirements.
+                 */
+
+                cout << "Literals implementation!" << endl;
+
+                using namespace Literals; // So that we can use the operator overloads
+
+                Temperature k1 = 31.73_F;
+                Temperature k2 = 0.0_C;
+
+                cout << "k1 = 31.73_F is: " << k1.Kelvin << endl;
+                cout << "k2 = 0.0_C is: " << k2.Kelvin << endl;
+
+                // As you can see pn the console log, the literals immediately perform the conversion logic that was
+                // declared in the body of the overload. Really handy tool!
+
+                cout << "\n\n" << endl;
+            }
+
+            // Operators that cannot be overloaded!
+            {
+                /*
+                 * - The following list are the operators that C++ does not allow you to overload.
+                 *  - .      Member selection.
+                 *  - .*     Pointer to member selection.
+                 *  - ::     Scope resolution.
+                 *  - ?:     Conditional ternary operator.
+                 *  - sizeof Get size of an object/class.
+                 *
+                 * - The compiler will not allow these operators to be overloaded because they are expected to perform
+                 *   consistently and have really specific use cases for them. Overloading them would result in loss
+                 *   of functionality or unexpected behaviours, so the compiler does not allow them to be overloaded.
+                 */
+            }
+
+
+            // Final thoughts
+            {
+                /*
+                 * - Program as many operators as you need in order to make your class easier to consume (use) and
+                 *   implement. However, do not overdo it and program operators that serve no function!
+                 *
+                 * - Remember to add the keyword EXPLICIT to conversion operators to avoid implicit conversions,
+                 *   ensuring type safety and better programming standards.
+                 *
+                 * - If your class contains dynamic memory resources, always ensure the copy constructor and copy
+                 *   assignment operator are implemented! If the class is a base class, ensure the destructor is
+                 *   implemented and marked as virtual to ensure polymorphism and proper memory management.
+                 *
+                 * - Tied to the point above, if you have dynamic memory resources, do program move constructor and move
+                 *   assignment operator. This will make your class more performant and prevent heavy loads of memory
+                 *   allocation and deallocation.
+                 *
+                 * - Don't assume the compiler will create a move constructor and assignment operator for you. It won't!
+                 *   It is not a requirement so the compiler will just avoid creating them and rely on the copy
+                 *   operations, hence why it is important to properly implement in case you don't program move logic.
+                 */
+            }
         }
     }
 
