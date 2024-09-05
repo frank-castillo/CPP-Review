@@ -15,4 +15,5 @@ add_executable(CPP_Review Basics/Extras.cpp
         OOP_Concepts/Classes_Objects.cpp
         OOP_Concepts/Inheritance.cpp
         OOP_Concepts/Polymorphism.cpp
-        OOP_Concepts/Operators.cpp)
+        OOP_Concepts/Operators.cpp
+        OOP_Concepts/CastingOperators.cpp)

@@ -2,6 +2,8 @@
 // Created by juanf on 2024-02-21.
 //
 
+// Module 05
+
 #include <iostream>
 #include <compare>
 #include <bitset>
@@ -9,7 +11,7 @@
 using std::cout;
 using std::endl;
 
-int Week05_main() {
+int Module05_main() {
 
     // Compound statement, also called a block
     // Delimited by {}, defined internally by programmer
