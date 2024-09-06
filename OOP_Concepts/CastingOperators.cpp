@@ -72,7 +72,7 @@ namespace DynamicCastFish
     }
 }
 
-int main()
+int Module13_main()
 {
     // What is casting?
     {
@@ -403,4 +403,6 @@ int main()
          *   API issues with no const correctness.
          */
     }
+
+    return 0;
 }

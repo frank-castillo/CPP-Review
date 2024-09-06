@@ -16,4 +16,6 @@ add_executable(CPP_Review Basics/Extras.cpp
         OOP_Concepts/Inheritance.cpp
         OOP_Concepts/Polymorphism.cpp
         OOP_Concepts/Operators.cpp
-        OOP_Concepts/CastingOperators.cpp)
+        OOP_Concepts/CastingOperators.cpp
+        OOP_Concepts/Module14_Macros_Templates_Introduction/Macros.cpp
+        OOP_Concepts/Module14_Macros_Templates_Introduction/Templates.cpp)
