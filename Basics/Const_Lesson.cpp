@@ -1,6 +1,9 @@
 //
 // Created by juanf on 2024-02-13.
 //
+
+// Module 03 - Constants - more information
+
 #include <iostream>
 
 consteval double GetPi() {
