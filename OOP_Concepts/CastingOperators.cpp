@@ -199,7 +199,7 @@ int main()
         int num = static_cast<int>(pi); // Implicit cast is now explicit
     }
 
-    // Using dynamic_cast<> and runtime type identification (RTI)
+    // Using dynamic_cast<> and runtime type identification (RTTI)
     {
         /*
          * - Just as the name suggests, this type of casting happens at runtime.
@@ -243,7 +243,7 @@ int main()
          *   in really handy when working with more complex types and methods that can accept Base class pointers.
          * - By using dynamic_cast, we can detect the type of object it is and perform operations that belong to the
          *   derived type.
-         * - This is called: Runtime Type Identification (RTI).
+         * - This is called: Runtime Type Identification (RTTI).
          *
          * - This operator returns either a valid address or a nullptr when performing the cast hence why we perform
          *   the validity check. NEVER FORGET TO PERFORM A VALIDITY CHECK!
@@ -277,7 +277,130 @@ int main()
     // Using reinterpret_cast
     {
         /*
-         * -
+         * - This operator is the closest a C++ casting operator can get to a C-style cast.
+         * - Just as the C-style cast, this operator allows us to cast one object type to another, regardless of whether
+         *   the types are related. It forces a reinterpretation of type.
+         */
+
+        class Base{};
+        class Derived: public Base{};
+        class Unrelated{};
+
+        Base* base = new Base();
+        Unrelated* unrelated = reinterpret_cast<Unrelated*>(base); // This will compile but its bad programming!
+        delete base;
+
+        /*
+         * - The cast forces the compiler to accept situations that usually other casts wouldn't accept.
+         * - However, it is still really helpful when complex data needs to be converted to a simple type that an API
+         *   (Application Programming Interface) can accept.
+         *  - This is really common in OS-level programming or embedded systems, where sometimes, information has to be
+         *    passed as a byte array (unsigned char*).
+         *    - unsigned char* bytesForAPI = reinterpret_cast<unsigned char*>(Object);
+         *    - This cast does not change the binary representation of the object.
+         *
+         * - DO NOTE that no other C++ casting operators would allow such a conversion that compromises type safety.
+         *   Thus, reinterpret_cast is the last resort when performing such unsafe conversions.
+         */
+    }
+
+    // Using const_cast
+    {
+        /*
+         * - This is a special operator that can save time in debugging but can also allow unexpected behaviour to be
+         *   introduced to your application, so be really careful when using it.
+         *
+         * - const_cast enables us to TURN OFF the CONST access modifier to an object.
+         *
+         * - Now, why would you want that!? It defeats the purpose of const correctness and object handling!
+         * - Well, you have to remember, you won't always be the only programmer working on a project. Mistakes are
+         *   prone to happening, and you also can't expect everyone to code errorless, clean, secure code (although
+         *   they should, but it is what it is...).
+         *
+         * - Many times you will find the following:
+         *   void DisplayMembers() {} -> Member method of a class. Notice the lack of const!
+         *   void DisplayAllData(const Class& object) { object.DisplayMembers; } -> External method that calls the class
+         *
+         * - The code above will fail to compile because we are attempting to access a function that allows internal
+         *   modification with a const object that does not allow any changes, so the compiler prevents the compilation.
+         *
+         * - If you own/have access to the codebase, you can easily go and fix the issue yourself, but sometimes, this
+         *   issue will present itself with external APIs or libraries and there is nothing you can do at that point.
+         *
+         * - BUT CONST_CAST IS HERE TO SAVE THE DAY!
+         *
+         *   void DisplayAllData(const Class& object)
+         *   {
+         *      Class& ref = const_cast<Class&>(constObject);
+         *      object.DisplayMembers;
+         *   }
+         *
+         * - By using const_cast, we can then get an obj reference that IS NOT CONST and use it to call non-const
+         *   methods.
+         * - This of course should be a last resort. If you can, fix your codebase, do that before even attempting to
+         *   use const_cast. If all hope is lost, then use the operator and ensure that no unexpected behaviour
+         *   will be introduced to the application,
+         *
+         * - So far the examples have worked with references(&) but just as the other operators, pointers(*) are a fully
+         *   supported type.
+         */
+    }
+
+    // Problems with the C++ casting operators
+    {
+        /*
+         * - The new implementations of modern C++ casting operators help to write type safe, readable, intention-driven
+         *   code. However, there are of course small nitpick issues that are present with C++ casting operators.
+         * - Funnily though, these issues stem from the programmers and not the implementation or performance of your
+         *   application.
+         *
+         * - The main issues are the cumbersome syntax, nonintuitive naming conventions, and how redundant these
+         *   operations can be unless strictly necessary to fix interoperability issues.
+         *
+         * - The compiler is smart enough to reach the same result for the following cases:
+         */
+
+        double pi = 3.1416;
+
+        // C++ style casting
+        int num = static_cast<int>(pi);
+
+        // C-style casting
+        int num2 = (int)pi;
+
+        // Let the compiler handle it
+        int num3 = pi;
+
+        /*
+         * - Regardless of which case you decide to use, the result will be the same: 3. So the fancy syntax becomes
+         *   redundant and tedious to write when you can just let the compiler do it for you.
+         *
+         * - The same principle applies to upcast or downcast.
+         *   - Derived* der = static_cast<Derived*>(baseObj);
+         *   - Derived* der = (Derived*)baseObj;
+         *  - Both these lines do the same thing, yet one is faster to type. So the main issue is the wordy syntax.
+         *
+         * - If we analyze the other operators, reinterpret_cast is the crowbar of casting. You use it to force your
+         *   cast when static_cast does not work. The same can be said for const_cast, forcing an object to a not
+         *   const correct function. dynamic_cast, becomes unnecessary when your inheritance hierarchies are
+         *   well-structured, and you have created all the virtual functions you'll need.
+         *
+         * - In the end, these operators are part of the standard to help in our task as programmers to solve issues and
+         *   ensure that our applications perform as they should.
+         */
+    }
+
+    // Final thoughts
+    {
+        /*
+         * - Casting Derived* to Base* is called upcasting and is a safe operation.
+         * - Casting Base* to Derived* is called downcasting, and you should use dynamic_cast to ensure that such an
+         *   operation was successful and the object is valid.
+         * - Don't design applications around RTTI and the use of dynamic_cast! Take the time to build solid classes
+         *   and use casting operators when strictly needed.
+         * - Not because you can "clear" the const of an object means that you are not allowed to modify the object as
+         *   you please. This many times will cause unexpected behaviours and its sole use is to solve legacy code or
+         *   API issues with no const correctness.
          */
     }
 }
